@@ -1,0 +1,13 @@
+Instale o ngrok no Google Colab:
+!pip install pyngrok
+
+Autentique o ngrok:
+from pyngrok import ngrok
+ngrok.set_auth_token("YOUR_NGROK_AUTHTOKEN")
+
+Inicie seu servidor Flask:
+!python app.py
+
+Crie o túnel ngrok:
+public_url = ngrok.connect(5000)
+print(f"Public URL: {public_url}")
