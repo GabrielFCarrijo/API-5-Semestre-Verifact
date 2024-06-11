@@ -12,6 +12,19 @@ def criar_usuario():
     usuario_id = usuario_func.criar_usuario(novo_usuario)
     return jsonify({'mensagem': 'Usuário criado com sucesso', 'id': usuario_id}), 201
 
+@app.route('/usuarios/login', methods=['POST'])
+def login_usuario():
+    data = request.json
+    nome = data.get('nome')
+    senha = data.get('senha')
+
+    # Verificar as credenciais do usuário
+    if usuario_func.verificar_credenciais(nome, senha):
+        return jsonify({'mensagem': 'Login bem-sucedido'}), 200
+    else:
+        return jsonify({'mensagem': 'Usuário ou senha incorretos'}), 401
+
+
 @app.route('/usuarios', methods=['GET'])
 def listar_usuarios():
     usuarios = usuario_func.listar_usuarios()
