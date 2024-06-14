@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import usuario as usuario_func
+import verifact as verifact_func
 
 app = Flask(__name__)
 
@@ -29,6 +30,22 @@ def login_usuario():
 def listar_usuarios():
     usuarios = usuario_func.listar_usuarios()
     return jsonify(usuarios), 200
+
+
+@app.route('/inserirTexto', methods=['POST'])
+def insere_texto():
+    data = request.json
+    novo_texto = {'texto': data['texto']}
+    texto_id = verifact_func.inserir_resultado(novo_texto)
+    if texto_id:
+        return jsonify({'mensagem': 'Texto criado com sucesso', 'id': texto_id}), 201
+    else:
+        return jsonify({'mensagem': 'Erro ao criar o texto'}), 500
+
+@app.route('/resultado', methods=['GET'])
+def mostrar_resultado():
+    verifact = verifact_func.mostrar_resultado()
+    return jsonify(verifact), 200
 
 @app.route('/usuarios/<int:id>', methods=['GET'])
 def ler_usuario(id):
